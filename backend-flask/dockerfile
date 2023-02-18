@@ -1,0 +1,23 @@
+FROM python:3.10-slim-buster
+
+#happens inside container. creates new folder and sets to working directory
+WORKDIR /backend-flask
+
+#copy requirements.txt from outside container to inside container
+COPY requirements.txt requirements.txt
+#installs requirements.txt file content on container
+RUN pip3 install -r requirements.txt
+
+#copies everything from same directory to docker container working directory
+COPY . .
+
+#sets environment variable inside container
+ENV FLASK_ENV=development
+ENV FRONTEND_URL="*"
+ENV BACKEND_URL="*"
+#sets port for container
+EXPOSE ${PORT}
+
+#runs below command inside container
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
